@@ -7,6 +7,7 @@ namespace Dotnet.JsonBenchmark
     public class NewtonsoftJson : IJsonParser
     {
         public string Name => "Newtonsoft.Json";
+        public ConsoleColor BarColor => ConsoleColor.Yellow;
 
         public T DeserializeFromString<T>(string json) => JsonConvert.DeserializeObject<T>(json);
 
