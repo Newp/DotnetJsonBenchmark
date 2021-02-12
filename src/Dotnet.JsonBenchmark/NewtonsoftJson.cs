@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Text;
 
 namespace Dotnet.JsonBenchmark
 {
@@ -6,34 +8,19 @@ namespace Dotnet.JsonBenchmark
     {
         public string Name => "Newtonsoft.Json";
 
-        public T DeserializeFromString<T>(string json) 
-        {
-            throw new NotImplementedException();
-        }
+        public T DeserializeFromString<T>(string json) => JsonConvert.DeserializeObject<T>(json);
 
         public T DeserializeFromUtf8<T>(byte[] utf8json)
         {
-            throw new NotImplementedException();
+            var json = Encoding.UTF8.GetString(utf8json);
+            return JsonConvert.DeserializeObject<T>(json); ;
         }
-
-        public string SerializeToString(string json)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string SerializeToString<T>(T instance)
-        {
-            throw new NotImplementedException();
-        }
-
-        public byte[] SerializeToUtf8(string json)
-        {
-            throw new NotImplementedException();
-        }
+        public string SerializeToString<T>(T instance) => JsonConvert.SerializeObject(instance);
 
         public byte[] SerializeToUtf8<T>(T instance)
         {
-            throw new NotImplementedException();
+            var json = JsonConvert.SerializeObject(instance);
+            return Encoding.UTF8.GetBytes(json);
         }
     }
 }
