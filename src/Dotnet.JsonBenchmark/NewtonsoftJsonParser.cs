@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Dotnet.JsonBenchmark
 {
-    public class NewtonsoftJson : IJsonParser
+    public class NewtonsoftJsonParser : IJsonParser
     {
         public string Name => "Newtonsoft.Json";
         public ConsoleColor BarColor => ConsoleColor.Yellow;

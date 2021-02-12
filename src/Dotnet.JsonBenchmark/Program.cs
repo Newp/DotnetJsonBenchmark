@@ -8,25 +8,27 @@ namespace Dotnet.JsonBenchmark
 {
     class Program
     {
-        class FlatSample
-        {
-            public string a { get; set; }
-            public string b { get; set; }
-            public string c { get; set; }
-        }
+        
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
 
-            Benchmark(new FlatSample() { a = "aaa", b = "bbbb", c = "ccccc" }, 10000);
+            Benchmark(new FlatSample() { a = "aaa", b = "bbbb", c = "ccccc" }, 500000);
+
+            Benchmark(new { a = new { a = new { a = new { a = new { a = "aaa", b = "bbbb", c = "ccccc" } } } } }, 500000);
+
 
         }
 
         static void Benchmark<T>(T instance, int testCount)
         {
-            var serializers = Assembly
-                .GetCallingAssembly()
-                .GetTypes()
+            var serializers = new Type[]
+            {
+                typeof(NewtonsoftJsonParser),
+                typeof(SystemTextJsonParser),
+                typeof(JilJsonParser),
+                typeof(Utf8JsonParser),
+            }
                 .Where(type => type.IsInterface == false && typeof(IJsonParser).IsAssignableFrom(type))
                 .Select(type => (IJsonParser)Activator.CreateInstance(type));
 
@@ -58,5 +60,12 @@ namespace Dotnet.JsonBenchmark
             }
         }
 
+    }
+
+    public class FlatSample
+    {
+        public string a { get; set; }
+        public string b { get; set; }
+        public string c { get; set; }
     }
 }
